@@ -1,0 +1,209 @@
+{% extends "diet_optimizer_website/layout2.html" %}
+
+{% block content %}
+
+
+
+<main class="hero-section">
+    <aside>
+        <div class="sidebar2" >
+            <ul>
+                <li ><a href="{% url 'about_logged_in' %}">ABOUT</a></li>
+                <li ><a href="{% url 'profile' %}">PERSONAL INFORMATION</a></li>
+                <li ><a href="{% url 'get_recipe' %}">GET A RECIPE</a></li>
+                <li ><a href="{% url 'history_not_tried' %}">HISTORY</a></li>
+                <li class="selected"><a href="{% url 'personal_settings' %}">SETTINGS</a></li>
+                <li ><a href="{% url 'most_popular_recipes_foods' %}">MOST POPULAR RECIPES</a></li>
+            </ul>
+        </div>
+    </aside>
+
+
+    <div class="container justify-content-start">
+        <ul class="nav nav-tabs">
+            <li><a href="{% url 'personal_settings' %}">PERSONAL SETTINGS</a></li>
+            <li class="active"><a href="{% url 'user_profile' %}">DIET SETTINGS</a></li>
+            <li><a href="{% url 'account_settings' %}">ACCOUNT SETTINGS</a></li>
+        </ul>
+    </div>
+
+    <div class="container-settings">
+	<script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+        <script type="text/javascript" src="script.js"></script>
+
+        <script type="text/javascript">
+
+            $(document).ready(function(){
+                disableIfNoneIntolerences();
+            });
+
+            function disableIfNoneIntolerences() {
+                if ( document.getElementById('intolerenceNone').checked )
+                {
+                    $("input[name='intolerences']").each(function(){
+                        if ($(this).is(':checkbox')) {
+                            $(this).prop("checked",false);
+                            $(this).attr("disabled",true);
+                        } else if ($(this).is(':hidden')) {
+                            $(this).attr("disabled",true);
+                        }
+                    });
+                    $("#intolerenceNone").each(function(){
+                        $(this).attr("disabled", false);
+                        $(this).prop("checked", true);
+                    });
+                }
+                else
+                {
+                    $("input[name='intolerences']").each(function(){
+                        if ($(this).is(':checkbox')) {
+                            $(this).attr("disabled",false);
+                        } else if ($(this).is(':hidden')) {
+                            $(this).attr("disabled",false);
+                        }
+                    });
+                }
+            };
+            </script>
+
+	    <form method="POST" action='/diet_optimizer_website/user_profile'>
+            <form method="GET" action='/diet_optimizer_website/user_profile'>
+                <div id="user_info">
+	                {% csrf_token %}
+                    <br>
+                    <h1 class="title">Do you want to change something on your profile?</h1>
+                    <br>
+                    <h2 class = "title">Save your favorite recipe options!</h2>
+                    <br>
+                    <br>
+                    <h2> Activity Level </h2>
+                    <div class='form-group'>
+                        <b>{{ form.activity_level.label }}</b>
+
+                        {% if form.activity_level.errors %}
+                            {% for error in form.activity_level.errors %}
+                                <p class='error-message'>{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        <br/>
+                        {{ form.activity_level }}
+                    </div>
+
+                    <h2> Diet </h2>
+                    <div class='form-group'>
+                        <b>{{ form.diet.label }}</b>
+
+                        {% if form.diet.errors %}
+                            {% for error in form.diet.errors %}
+                                <p class='error-message'>{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        <br/>
+                        {{ form.diet }}
+                    </div>
+
+                    <h2> Intolerences </h2>
+                    <div class='form-group'>
+                        <b>{{ form.intolerences.label }}</b>
+
+                        {% if form.intolerences.errors %}
+                            {% for error in form.intolerences.errors %}
+                                <p class='error-message'>{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        <br>
+                        <table>
+                            {% if "None" in intolerences_name_list %}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" value="None" checked="true" name="intolerences" id="intolerenceNone" onclick="disableIfNoneIntolerences()"><b> None</b></input>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" value="None" name="intolerences" id="intolerenceNone" onclick="disableIfNoneIntolerences()"><b> None</b></input>
+                                </td>
+                            </tr>
+                            {% endif %}
+                        {% for intolerence in form.intolerences|slice:"1:" %}
+                            <tr>
+                                <td>
+                                    {{intolerence}}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
+
+                    <h2> Favorite cuisines</h2>
+                    <dt> {{form.cuisines.label}}
+                        {% if form.cuisines.errors %}
+                        {% for error in form.cuisines.errors %}
+                          <p class='error-message'>{{ error }}</p>
+                        {% endfor %}
+                      {% endif %}
+                      <dt>
+                        <table>
+                          <tr>
+                            {% for cuisine in form.cuisines %}
+                              <td>
+                                {{cuisine}}
+                              </td>
+                              {% if forloop.counter|divisibleby:10 %}
+                                  </tr><tr>
+                              {% endif %}
+                            {% endfor %}
+                          </tr>
+                        </table>
+
+                    <h2> Favorite kinds of foods </h2>
+                    <dt> {{form.rawGroups.label}}
+                        {% if form.rawGroups.errors %}
+                            {% for error in form.rawGroups.errors %}
+                              <p class='error-message'>{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </dt>
+                    <table>
+                      <tr>
+                        {% for group in form.rawGroups %}
+                          <td>
+                            {{group}}
+                          </td>
+                          {% if forloop.counter|divisibleby:4 %}
+                              </tr><tr>
+                          {% endif %}
+                        {% endfor %}
+                      </tr>
+                    </table>
+                        
+                    <h2> Usual time to cook </h2>
+                    <dt> {{form.timeToCook.label}}
+                        {% if form.timeToCook.errors %}
+                            {% for error in form.timeToCook.errors %}
+                              <p class='error-message'>{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </dt>
+                    <table>
+                      <tr>
+                          <td>
+                            {{form.timeToCook}}
+                          </td>
+                      </tr>
+                    </table>
+                        
+                    <br>
+
+                    <input class="btn-primary" id="submit" type="submit" name="submit" value="Update" />
+                    <br>
+                    <br>
+                </div>
+            </form>
+        </form>
+    </div>
+</main>
+
+
+{% endblock %}

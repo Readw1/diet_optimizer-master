@@ -1,0 +1,815 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Models &#8212; diet_optimizer 4.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Views" href="views.html" />
+    <link rel="prev" title="Documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="models">
+<h1>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="userdb">
+<h2>UserDB<a class="headerlink" href="#userdb" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.UserDB">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">UserDB</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing an user. In this class will be stored all data about 
+an user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user</strong> – This attribut is a One to One Field link to the django class 
+User. In the class User are stored the first name, last name, username,
+email and pasword of an user.</li>
+<li><strong>height</strong> – The user’s height.</li>
+<li><strong>weight</strong> – The user’s weight.</li>
+<li><strong>birth_date</strong> – The user’s birth date.</li>
+<li><strong>activity_level</strong> – The user’s activity level. It’s a CharField and the 
+user must choose between Sedentary, Low Active, Active, Very Active.</li>
+<li><strong>diet</strong> – The user’s diet. It’s a CharField and the user must choose 
+between a list of diet like Paleo, Vega, etc… If the user has any diet, 
+he can chose None.</li>
+<li><strong>gender</strong> – the user’s gender. It’s a CharField and the 
+user must choose between Male or Female.</li>
+<li><strong>accepts_popups</strong> – This is a boolean. It’s set to true if the user 
+accepts to have a warning if during his recipe’s search he puts food 
+prohibited by his diet or intolerences. The user can deactivate this pop up
+thus the attribut would be set to false.</li>
+<li><strong>timeToCook</strong> – The user can set, in his preferences, the maximum time
+he usually have to cook. During a recipe’s search, the total time of 
+suggested recipes wont exceed this time (if he doesn’t change it in the
+get recipe’s form).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is no intolerence attribut in this class. Indeed, there is
+an Intolerence class, which is link to the user’s data with a ForeignKey
+attribut userdb. Thus the UserDB class is link to the user’s intolerences 
+thanks to the userdb attribut of the Intolerence class.</p>
+</div>
+<dl class="exception">
+<dt id="diet_optimizer_website.models.UserDB.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#diet_optimizer_website.models.UserDB.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="diet_optimizer_website.models.UserDB.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#diet_optimizer_website.models.UserDB.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserDB.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserDB.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function cast an UserDB object into a dictionnary. This is usefull
+when we need to send an UserDB in a request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The dictionnary representing the UserDB.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserDB.user_as_dict">
+<code class="descname">user_as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserDB.user_as_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function cast an User object (attribut of an UserDB object) into a 
+dictionnary. This is usefull when we need to send an UserDB or an User in 
+a request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The dictionnary representing the User.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="recipe">
+<h2>Recipe<a class="headerlink" href="#recipe" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.Recipe">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">Recipe</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.Recipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing a Recipe. In this class will be stored some data 
+about a Recipe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>recipe_id_api</strong> – Recipes are referenced in spoonacular with a
+different id than the one automatically generate by django. recipes_id_api
+attribut is the recipe’s id of spoonacular.</li>
+<li><strong>title</strong> – The title’s recipe.</li>
+<li><strong>link</strong> – The spoonacular link’s recipe.</li>
+<li><strong>likes</strong> – The number of likes that the recipe has.</li>
+<li><strong>dislikes_no_opinion</strong> – The addition of dislikes and no opinion that 
+the recipe has.</li>
+<li><strong>percent</strong> – The percentage of likes out of all votes (likes + dislikes
++ no opinion) for the recipe.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All recipes used are in Spoonacular. The diet optimizer website
+access these recipes and stores the data of previous fields in the Recipe’s
+table.</p>
+</div>
+<dl class="exception">
+<dt id="diet_optimizer_website.models.Recipe.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#diet_optimizer_website.models.Recipe.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="diet_optimizer_website.models.Recipe.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#diet_optimizer_website.models.Recipe.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="saved-recipes">
+<h2>Saved_Recipes<a class="headerlink" href="#saved-recipes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.Saved_Recipes">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">Saved_Recipes</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.Saved_Recipes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing a Recipe. In this class will be stored some data 
+about a Recipe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user</strong> – The user who saved the recipes. This is a ForeignKey
+relation, thus this is a user object.</li>
+<li><strong>diet_recipes</strong> – All data from spoonacular used for displaying 
+information about a group of recipes saved by the user.</li>
+<li><strong>total_nutrients_taken</strong> – The total nutrients that a group of recipes
+provides.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="exception">
+<dt id="diet_optimizer_website.models.Saved_Recipes.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#diet_optimizer_website.models.Saved_Recipes.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="diet_optimizer_website.models.Saved_Recipes.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#diet_optimizer_website.models.Saved_Recipes.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="feedback">
+<h2>Feedback<a class="headerlink" href="#feedback" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.Feedback">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">Feedback</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.Feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing a Feedback from an user for a recipe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>recipe</strong> – The recipe concerned by the feedback. This is a ForeignKey
+relation, thus this is a Recipe object.</li>
+<li><strong>user</strong> – The user whose the feedback it is. This is a ForeignKey
+relation, thus this is an UserDB object.</li>
+<li><strong>mark</strong> – The mark that the user gave for the recipe’s feedback. 
+mark = 1 means that the user liked it, 
+mark = 2 means that the user disliked it, 
+mark = 3 means that the user has no opinion, 
+mark = 4 means that the user didn’t try it yet.</li>
+<li><strong>title</strong> – The feedback’s title. It’s equal to the recipe’s title that 
+is linked to the feedback, so the feedback’s title is not unique.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="exception">
+<dt id="diet_optimizer_website.models.Feedback.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#diet_optimizer_website.models.Feedback.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="diet_optimizer_website.models.Feedback.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#diet_optimizer_website.models.Feedback.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="intolerences">
+<h2>Intolerences<a class="headerlink" href="#intolerences" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.Intolerences">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">Intolerences</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.Intolerences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing Introlerence(s) of users.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>userdb</strong> – The user whose the cuisines intolerence it is. This is a ForeignKey
+relation, thus this is an UserDB object.</li>
+<li><strong>intolerence_name</strong> – The name of the intolerence that the user has.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is a row per user and per intelorence. For instance if a user
+has 2 intolerences, there’ll be 2 rows in the db, with the reference to 
+the user and the name of each intolerence.</p>
+</div>
+<dl class="exception">
+<dt id="diet_optimizer_website.models.Intolerences.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#diet_optimizer_website.models.Intolerences.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="diet_optimizer_website.models.Intolerences.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#diet_optimizer_website.models.Intolerences.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="preferencecuisines">
+<h2>PreferenceCuisines<a class="headerlink" href="#preferencecuisines" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.PreferenceCuisines">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">PreferenceCuisines</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.PreferenceCuisines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing the cuisines the user prefer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>userdb</strong> – The user whose the cuisines preference it is. This is a ForeignKey
+relation, thus this is an UserDB object.</li>
+<li><strong>cuisine_name</strong> – The name of the preference that the user has.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is used to store the cuisines preference in order
+to pre fill the form when the user wants to get recipes. The user can 
+change his preferences in the diet settings page.
+There is a row per user and per cuisines preference. For instance if a user
+has 2 cuisines preference, there’ll be 2 rows in the db, with the reference 
+to the user and the name of each cuisines preference.</p>
+</div>
+<dl class="exception">
+<dt id="diet_optimizer_website.models.PreferenceCuisines.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#diet_optimizer_website.models.PreferenceCuisines.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="diet_optimizer_website.models.PreferenceCuisines.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#diet_optimizer_website.models.PreferenceCuisines.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="preferencerawfoods">
+<h2>PreferenceRawFoods<a class="headerlink" href="#preferencerawfoods" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.PreferenceRawFoods">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">PreferenceRawFoods</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.PreferenceRawFoods" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing the raw food the user prefer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>userdb</strong> – The user whose the raw food preference it is. This is a ForeignKey
+relation, thus this is an UserDB object.</li>
+<li><strong>cuisine_name</strong> – The name of the preference that the user has.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This class is used to store the raw food preferences in order
+to pre fill the form when the user wants to get recipes. The user can 
+change his preferences in the diet settings page.
+There is a row per user and per raw food preference. For instance if a user
+has 2 raw food preferences, there’ll be 2 rows in the db, with the reference 
+to the user and the name of each raw food preference.</p>
+</div>
+<dl class="exception">
+<dt id="diet_optimizer_website.models.PreferenceRawFoods.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#diet_optimizer_website.models.PreferenceRawFoods.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="diet_optimizer_website.models.PreferenceRawFoods.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#diet_optimizer_website.models.PreferenceRawFoods.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="usdafoods">
+<h2>USDAfoods<a class="headerlink" href="#usdafoods" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.USDAfoods">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">USDAfoods</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.USDAfoods" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing the different raw foods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>NDB_No</strong> – Automatic ID representing the number of the food in the database.</li>
+<li><strong>desc</strong> – Description of the food.</li>
+<li><strong>calorie</strong> – The number of calories a portion of this food provides.</li>
+<li><strong>protein</strong> – The number of protein a portion of this food provides (in g).</li>
+<li><strong>fat</strong> – The number of fat a portion of this food provides (in g).</li>
+<li><strong>carb</strong> – The number of carbohydrates a portion of this food provides (in g).</li>
+<li><strong>group_code</strong> – The code number of the group this food belongs to.</li>
+<li><strong>group_name</strong> – The name of the group this food belongs to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Below are other fields used to enable food popularity.</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param likes:</th><td class="field-body">The number of likes this food got.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">param dislikes_no_opinion:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">the number of dislikes or no opinion that
+this food got.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param percent:</th><td class="field-body">The percentage of likes this food got comparend to the
+total number of votes it got.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="exception">
+<dt id="diet_optimizer_website.models.USDAfoods.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#diet_optimizer_website.models.USDAfoods.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="diet_optimizer_website.models.USDAfoods.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#diet_optimizer_website.models.USDAfoods.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="feedbackrawfood">
+<h2>FeedbackRawFood<a class="headerlink" href="#feedbackrawfood" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.FeedbackRawFood">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">FeedbackRawFood</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.FeedbackRawFood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing a Feedback from an user for a raw food.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>food</strong> – The raw food concerned by the feedback. This is a ForeignKey
+relation, thus this is a USDAfoods object.</li>
+<li><strong>user</strong> – The user whose feedback it is. This is a ForeignKey
+relation, thus this is an UserDB object.</li>
+<li><strong>mark</strong> – The mark that the user gave for the raw food’s feedback. 
+mark = 1 means that the user liked it, 
+mark = 2 means that the user disliked it, 
+mark = 3 means that the user has no opinion, 
+mark = 4 means that the user didn’t try it yet.</li>
+<li><strong>title</strong> – The feedback’s title. It’s equal to the raw food’s title that 
+is linked to the feedback, so the feedback’s title is not unique.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="exception">
+<dt id="diet_optimizer_website.models.FeedbackRawFood.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#diet_optimizer_website.models.FeedbackRawFood.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="diet_optimizer_website.models.FeedbackRawFood.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#diet_optimizer_website.models.FeedbackRawFood.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="userdata">
+<h2>UserData<a class="headerlink" href="#userdata" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.UserData">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">UserData</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserData" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class represents various data about the user that he didn’t enter himself.</p>
+<p>For that it will use the information it knows about the user to calculate new data.
+This class has 6 fields:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>age</strong> – The age of the user, calculated thanks to his birth date.</li>
+<li><strong>gender</strong> – The user’s gender.</li>
+<li><strong>weight</strong> – The user’s weight.</li>
+<li><strong>height</strong> – The user’s height.</li>
+<li><strong>exercise_level</strong> – The user’s exercise level.</li>
+<li><strong>daily_nutrients</strong> – A dictionnary containing the amount of nutrients the user
+should consume daily in general.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserData.get_BMI">
+<code class="descname">get_BMI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserData.get_BMI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function calculate’s the BMI of the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A float, the user’s BMI.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserData.get_PA">
+<code class="descname">get_PA</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserData.get_PA" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will calculate a number representing the user’s
+physical activity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An arbitrary float representing the user’s physical activity.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserData.get_calorie">
+<code class="descname">get_calorie</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserData.get_calorie" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will calculate the user’s physical activity and
+calculate accordingly the number of calories the user should take daily,
+also considering his age and gender.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A float, representing the number of calories the user should take daily.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserData.get_carb_lower">
+<code class="descname">get_carb_lower</code><span class="sig-paren">(</span><em>calories</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserData.get_carb_lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function calculates the minimum amount of carbohydrates the
+user should consume per day.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>calories</strong> – The amount of calories the user should take daily.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A float, minimum number of carbs the user should have per day.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserData.get_carb_upper">
+<code class="descname">get_carb_upper</code><span class="sig-paren">(</span><em>calories</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserData.get_carb_upper" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function calculates the maximum amount of carbohydrates the
+user should consume per day.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>calories</strong> – The amount of calories the user should take daily.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A float, maximum number of carbs the user should have per day.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserData.get_daily_nutrients">
+<code class="descname">get_daily_nutrients</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserData.get_daily_nutrients" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function calculates the minimum and maximum amount of each nutrients the
+user should take daily.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A dictionnary, containing all these nutrient information in addition to the user’s BMI.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserData.get_fat_lower">
+<code class="descname">get_fat_lower</code><span class="sig-paren">(</span><em>calories</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserData.get_fat_lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function calculates the minimum amount of fat the
+user should consume per day.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>calories</strong> – The amount of calories the user should take daily.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A float, minimum number of fat the user should have per day.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserData.get_fat_upper">
+<code class="descname">get_fat_upper</code><span class="sig-paren">(</span><em>calories</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserData.get_fat_upper" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function calculates the maximum amount of fat the
+user should consume per day.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>calories</strong> – The amount of calories the user should take daily.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A float, maximum number of fat the user should have per day.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserData.get_protein_lower">
+<code class="descname">get_protein_lower</code><span class="sig-paren">(</span><em>calories</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserData.get_protein_lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function calculates the minimum amount of proteins the
+user should consume per day.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>calories</strong> – The amount of calories the user should take daily.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A float, minimum number of proteins the user should have per day.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.UserData.get_protein_upper">
+<code class="descname">get_protein_upper</code><span class="sig-paren">(</span><em>calories</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.UserData.get_protein_upper" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function calculates the maximum amount of proteins the
+user should consume per day.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>calories</strong> – The amount of calories the user should take daily.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A float, maximum number of proteins the user should have per day.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="recipehandler">
+<h2>RecipeHandler<a class="headerlink" href="#recipehandler" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.RecipeHandler">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">RecipeHandler</code><span class="sig-paren">(</span><em>userDB</em>, <em>user_daily_nutrients</em>, <em>cuisine</em>, <em>diet</em>, <em>intolerances</em>, <em>exclude_ingredients</em>, <em>recipe_types</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.RecipeHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>The RecipeHandler class is the one making sure the user will only be provided recipes that match what he is searching for.</p>
+<dl class="method">
+<dt id="diet_optimizer_website.models.RecipeHandler.get_URL">
+<code class="descname">get_URL</code><span class="sig-paren">(</span><em>recipe_type</em>, <em>offset</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.RecipeHandler.get_URL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to get the url for spoonacular.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>recipe_type</strong> – The type of recipe we want our url to find.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A string. The URL that will be sent to spoonacular.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">offset is also a parameter but we have no idea what it stands for. It is just part of the URL for spoonacular.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.RecipeHandler.get_recipes">
+<code class="descname">get_recipes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.RecipeHandler.get_recipes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to get the list of the recipes usable with the user’s request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A dictionnary filled with other dictionnarys containing various information 
+about the recipes foud that satisfy the user’s needs.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="linearprogrammingsolver">
+<h2>LinearProgrammingSolver<a class="headerlink" href="#linearprogrammingsolver" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="diet_optimizer_website.models.LinearProgrammingSolver">
+<em class="property">class </em><code class="descclassname">diet_optimizer_website.models.</code><code class="descname">LinearProgrammingSolver</code><span class="sig-paren">(</span><em>obj</em>, <em>obj_nut</em>, <em>dict_prot</em>, <em>dict_fat</em>, <em>dict_cal</em>, <em>dict_carb</em>, <em>dict_title</em>, <em>dict_price</em>, <em>dict_time</em>, <em>recipe_types</em>, <em>daily_nutrients</em>, <em>max_time</em>, <em>asked_recipe_nutrients</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.LinearProgrammingSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>The LinearProgrammingSolver class will take every recipes found by the RecipeHandler as well as what the user is searching to optimize
+in order to find the optimal set of recipes responding to the user’s needs.</p>
+<dl class="method">
+<dt id="diet_optimizer_website.models.LinearProgrammingSolver.func_lp">
+<code class="descname">func_lp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.LinearProgrammingSolver.func_lp" title="Permalink to this definition">¶</a></dt>
+<dd><p>This functions tries to returns the optimal list of recipes the user can cook to have the nutrients he asked for.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of the IDs of the recipes the user should try.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="diet_optimizer_website.models.LinearProgrammingSolver.get_lp_output">
+<code class="descname">get_lp_output</code><span class="sig-paren">(</span><em>suggested_recipes</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.models.LinearProgrammingSolver.get_lp_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to get the spoonacular output concerning the recipes suggested by the website.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a dictionnary in Json format having all the data about the recipes the user should try.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">diet_optimizer</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#userdb">UserDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recipe">Recipe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#saved-recipes">Saved_Recipes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#feedback">Feedback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#intolerences">Intolerences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preferencecuisines">PreferenceCuisines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preferencerawfoods">PreferenceRawFoods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usdafoods">USDAfoods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#feedbackrawfood">FeedbackRawFood</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#userdata">UserData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recipehandler">RecipeHandler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linearprogrammingsolver">LinearProgrammingSolver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">Views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Forms</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Documentation</a></li>
+      <li>Next: <a href="views.html" title="next chapter">Views</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/models.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

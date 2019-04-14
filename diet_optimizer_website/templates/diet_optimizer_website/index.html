@@ -1,0 +1,35 @@
+{% extends "diet_optimizer_website/layout.html" %}
+
+{% block content %}
+
+  <main class="hero-section">
+    <div class="container">
+      
+      <div class="section-content">
+        <h2>Find recipes that meet your nutritional requirements.</h2>
+		<br>
+        <a class="btn-primary" href="{% url 'signup' %}" >Sign up</a>
+        <a href="{% url 'about' %}" class="btn-secondary">Learn more</a> 
+        <br>
+        <a href="{% url 'login' %}" class="btn-login">Log In</a>
+      </div>
+
+      <div class="section-device">
+		{% load static %}
+        <img src="{% static 'img/sample.png' %}" />
+      </div>
+      
+      <div class="clearfix"></div>
+
+    </div>
+  </main>
+  {% comment %}<!--footer>
+	<a href="{{ url_for('profile') }}" >profile</a>
+	<a href="{{ url_for('signup1') }}" >signup</a>
+	<a href="{{ url_for('history') }}" >history</a>
+    <a href="{{ url_for('settings') }}" >settings</a>
+    <a href="{{ url_for('home') }}" >home</a>
+	<a href="{{ url_for('personal_details') }}" >personal_details</a>
+	
+  </footer-->{% endcomment %}
+{% endblock %}

@@ -1,0 +1,207 @@
+{% extends 'diet_optimizer_website/layout2.html' %}
+
+{% block content %}
+
+<!-- <html lang="en"> -->
+
+<aside>
+	<div class="sidebar2" >
+		<ul>
+			<li ><a href="{% url 'about_logged_in' %}">ABOUT</a></li>
+			<li ><a href="{% url 'profile' %}">PERSONAL INFORMATION</a></li>
+			<li class="selected"><a href="{% url 'get_recipe' %}">GET A RECIPE</a></li>
+			<li ><a href="{% url 'history_not_tried' %}">HISTORY</a></li>
+			<li ><a href="{% url 'personal_settings' %}">SETTINGS</a></li>
+      <li ><a href="{% url 'most_popular_recipes_foods' %}">MOST POPULAR RECIPES</a></li>
+		</ul>
+	</div>
+</aside>
+
+<body>
+  <title>Results</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<div id='bs-ex' class="bs-example">
+  <h3>Food Items:</h3>
+  <div class="panel-group" id="accordion">
+  {% if not raw_foods %}
+    <h4>We are sorry, no food were found to match your requirements.</h4>
+    <h5>Try to change your research criterias. You might have more results.</h5>
+  {% else %}
+  {% for key in raw_foods %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{ forloop.counter }}">{{key.Desc}}</a>
+                </h4>
+            </div>
+            <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">
+                <div class="panel-body">
+
+                <h4>Nutrients (for 100g):</h4>
+                  <p>
+                    Calories: {{ key.Cal }} kcal
+                      <br>
+                    Carbs: {{ key.Carb }} gr
+                      <br>
+                    Fat: {{ key.Fat }} gr
+                      <br>
+                    Protein: {{ key.Prot }} gr
+                      <br>
+                  </p>
+                </div>
+              </div>
+          </div>
+  {% endfor %}
+  {% endif %}
+  </div>
+
+  <h3>Recipes:</h3>
+    <div class="panel-group" id="accordion">
+      {% if not recipes %}
+        <h4>We are sorry, no recipes were found to match your requirements.</h4>
+        <h5>Try to change your research criterias. You might have more results.</h5>
+      {% else %}
+      {% for key in recipes %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{key.id}}">{{key.title}}</a>
+                </h4>
+            </div>
+            <div id="collapse{{key.id}}" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <p>
+                    <!-- Preparation time: {{key.preparationMinutes}} minutes
+                    <br> -->
+                    Ready in {{key.readyInMinutes}} minutes
+                    <br>
+                    Price per serving: ${% widthratio key.pricePerServing 100 1 %}
+                    <!-- the widthratio tag here is used to divide the price by 100 it seems weird but it's a shortcut to divide in a django template. -->
+                    <br>
+                    <!-- Servings: {{key.servings}}  -->
+                    <br>
+                    <br>
+                    <div id="nutrients">
+                      <h4>Nutrients:</h4>
+                      {% for ob in key.nutrition.nutrients %}
+                         {% if ob.title == 'Calories'%}
+                           Calories: {{ ob.amount }} kcal
+                           <br>
+                         {% endif %}
+                         {% if ob.title == 'Carbohydrates'%}
+                           Carbs: {{ ob.amount }} gr
+                           <br>
+                         {% endif %}
+                         {% if ob.title == 'Fat'%}
+                           Fat: {{ ob.amount }} gr
+                           <br>
+                         {% endif %}
+                         {% if ob.title == 'Protein'%}
+                           Protein {{ ob.amount }} gr
+                           <br>
+                         {% endif %}
+                      {% endfor %}
+                      <br>
+                    </div>
+                    <div id="properties">
+                      <h4>Properties:</h4>
+                        {% if key.vegetarian != false %}
+                          Vegetarian
+                          <br>
+                        {% endif %}
+                        {% if key.vegan != false %}
+                          Vegan
+                          <br>
+                        {% endif %}
+                        {% if key.glutenFree != false %}
+                          Gluten Free
+                          <br>
+                        {% endif %}
+                        {% if key.veryHealthy != false %}
+                          Healthy
+                          <br>
+                        {% endif %}
+                        {% if key.ketogenic != false %}
+                          Ketogenic
+                          <br>
+                        {% endif %}
+                        {% if key.dairyFree != false %}
+                          Dairy Free
+                          <br>
+                        {% endif %}
+                    <br>
+                    </div>
+                    <div id="sources">
+                      <h4>Source:</h4>
+                      Spoonacular: <a href="{{key.spoonacularSourceUrl}}" target="_blank">{{key.spoonacularSourceUrl}}</a>
+                    </div>
+                  </p>
+                </div>
+            </div>
+        </div>
+      {% endfor %}
+
+  </div>
+
+        <div id='nutrients_sum'>
+        <h3>Total nutrients taken, Price & Time:</h3>
+        Calories: {{total_nutrients_taken.calories}} kcal
+        <br>
+        Carb: {{total_nutrients_taken.carb}} gr
+        <br>
+        Fat: {{total_nutrients_taken.fat}} gr
+        <br>
+        Protein: {{total_nutrients_taken.protein}} gr
+        <br>
+        Price: $ {{total_nutrients_taken.price}}
+        <br>
+        Time: {{total_nutrients_taken.time}} minutes
+        <br>
+        <br>
+        </div>
+				{% endif %}
+
+      <div id="formsubmitbutton">
+        {% if recipes %}
+          <button type="button" class="btn btn-primary" onclick="document.location.href='http:{% url 'save_recipes_in_db' %}'">Save Recipes</button>
+        {%endif%}
+        <button type="button" class="btn btn-secondary" onclick='location.reload(), ButtonClicked()'>Regenerate Recipes</button>
+      </div>
+      <div id="buttonreplacement" style="margin-left:430px; display:none;">
+          {% load static %}
+          <img src='{% static "img/loader.gif" %}' alt="loading...">
+      </div>
+      <!-- below js code is for loading gif on submit button -->
+      <script type="text/javascript">
+        function ButtonClicked()
+        {
+           document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
+           document.getElementById("buttonreplacement").style.display = ""; // to display
+           return true;
+        }
+
+        var FirstLoading = true;
+
+        function RestoreSubmitButton()
+        {
+           if( FirstLoading )
+           {
+              FirstLoading = false;
+              return;
+           }
+           document.getElementById("formsubmitbutton").style.display = ""; // to display
+           document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
+        }
+        // To disable restoring submit button, disable or delete next line.
+        document.onfocus = RestoreSubmitButton;
+      </script>
+
+</div>
+</body>
+
+<!-- </html> -->
+</main>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!--DOCTYPE html-->
+<html>
+  <head>
+	{% load static %}
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet'>
+    <link href='{% static "css/diet_optimizer_main.css" %}' rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1 class="title">
+			<a href="{% url 'index' %}" >Diet Optimizer</a>
+		</h1>
+
+		<h1 class="signup" >
+			<a href="{% url 'signup' %}" >| Sign up</a>
+		</h1>
+		<h1 class="login" >
+			<a href="{% url 'login' %}" >Log In </a>
+		</h1>
+
+      </div>
+
+    </header>
+
+    <div class="content">
+	{% block content %}
+    {% endblock %}
+    </div>
+  </body>
+</html>

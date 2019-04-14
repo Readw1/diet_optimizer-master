@@ -1,0 +1,10 @@
+Part 1 time: 16.262885
+Part 2 time: 0.001673
+Inner time: 16.264566
+Outer loop run 0 time: 16.264628
+
+Part 1 time: 14.228283
+Part 2 time: 0.001418
+Inner time: 14.229708
+Outer loop run 0 time: 14.229769
+

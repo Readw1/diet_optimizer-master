@@ -1,0 +1,118 @@
+<!-- history page : history of all the recipes and group foods suggested by the website to the user + page where the user can give a rate to a recipe/raw food -->
+
+{% extends "diet_optimizer_website/layout2.html" %}
+{% block content %}
+
+<main>
+
+    <aside>
+            <div class="sidebar2" >
+                <ul>
+                    <li ><a href="{% url 'about_logged_in' %}">ABOUT</a></li>
+                    <li ><a href="{% url 'profile' %}">PERSONAL INFORMATION</a></li>
+                    <li ><a href="{% url 'get_recipe' %}">GET A RECIPE</a></li>
+                    <li class="selected"><a href="{% url 'history_not_tried' %}">HISTORY</a></li>
+                    <li ><a href="{% url 'personal_settings' %}">SETTINGS</a></li>
+                    <li ><a href="{% url 'most_popular_recipes_foods' %}">MOST POPULAR RECIPES</a></li>
+                </ul>
+            </div>
+    </aside>
+
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="{% url 'history_not_tried' %}">TO BE TRIED</a></li>
+            <li><a href="{% url 'history_tried' %}">ALREADY TRIED</a></li>
+            <li><a href="{% url 'saved_recipes' %}">SAVED RECIPES</a></li>
+        </ul>
+    </div>
+
+    <div class="container row">
+      <br>
+      <br>
+        <h1 class="container-history">RECIPES YOU PLAN TO TRY:</h1>
+    </div>
+
+    <form method="POST" action='/diet_optimizer_website/history_not_tried'>
+    <form method="GET" action='/diet_optimizer_website/history_not_tried'>
+        {% csrf_token %}
+
+    <div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col"><h2><b>Recipe</b></h2></th>
+                <th scope="col"><h2><b>Link</b></h2></th>
+                <th scope="col"><h2><b>Rate</b></h2></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for feedback in  feedbacks %}
+          {% if feedback.mark == 4 %}
+            <tr>
+              <td>
+                <p>{{ feedback.recipe.title }}</p>
+              </td>
+              <td>
+                <a href={{feedback.recipe.link}}>Link</a>
+              </td>
+              <td>
+                <input type="radio" name={{feedback.recipe.pk}} value="1" /><img src="/static/img/thumbs-up.png" height="17" width="17" />
+                <input type="radio" name={{feedback.recipe.pk}} value="3" /><img src="/static/img/thumbs-down.png" height="17" width="17" />
+                <input type="radio" name={{feedback.recipe.pk}} value="2" />No Opinion<br><br>
+                <input type="radio" name={{feedback.recipe.pk}} value="4" checked="true" />Didn't Try<br><br>
+              </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+        <input type="submit" value="Submit" class="btn-primary">
+
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+
+    <div class="container row">
+          <h1 class="container-history">FOODS YOU PLAN TO TRY:</h1>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col"><h2><b>Food</b></h2></th>
+                <th scope="col"><h2><b>Rate</b></h2></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for feedback_raw_food in  feedbacks_raw_food %}
+          {% if feedback_raw_food.mark == 4 %}
+            <tr>
+                <td>
+                    <p>{{ feedback_raw_food.food.desc }}</p>
+                </td>
+                <td>
+                    <input type="radio" name={{feedback_raw_food.food.NDB_No}} value="1" /><img src="/static/img/thumbs-up.png" height="17" width="17" />
+                    <input type="radio" name={{feedback_raw_food.food.NDB_No}} value="3" /><img src="/static/img/thumbs-down.png" height="17" width="17" />
+                    <input type="radio" name={{feedback_raw_food.food.NDB_No}} value="2" />No Opinion<br><br>
+                    <input type="radio" name={{feedback_raw_food.food.NDB_No}} value="4" checked="true" />Didn't Try<br><br>
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+    <input type="submit" value="Submit" class="btn-primary">
+
+
+    </div>
+    </form>
+    </form>
+    <br/>
+</main>
+
+
+{% endblock %}

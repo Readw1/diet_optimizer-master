@@ -1,0 +1,363 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Views &#8212; diet_optimizer 4.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Forms" href="forms.html" />
+    <link rel="prev" title="Models" href="models.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-diet_optimizer_website.views">
+<span id="views"></span><h1>Views<a class="headerlink" href="#module-diet_optimizer_website.views" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="diet_optimizer_website.views.about">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">about</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.about" title="Permalink to this definition">¶</a></dt>
+<dd><p>About view</p>
+<p>This view simply renders the about page, giving information about the website to the users.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.about_logged_in">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">about_logged_in</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.about_logged_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>About view</p>
+<p>This view simply renders the about page, giving information about the website to the users.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.account_settings">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">account_settings</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.account_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Account settings view</p>
+<p>This view allows the user to change his password, or the fact that he can receive popups or not.
+It will first load the user’s data.
+If the view is accessed via GET method it will simply load both forms and render the page.
+If the view is accessed via POST method it will fill first check which form has been filled.
+For each form, if it has been filled it will check if the data has been correctly entered.
+If the data is valid it will create a confirmation message and change all the entered data to update the user’s information.
+If the data is not valid however it will create an error message and reload the page and ask the user to enter data properly.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.delete_recipes_in_db">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">delete_recipes_in_db</code><span class="sig-paren">(</span><em>request</em>, <em>pk</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.delete_recipes_in_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>“delete recipes in db view.</p>
+<p>This view allows the user to delete recipes from his saved recipes whenever he tried them.
+He will be able to have access to it again using the history page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pk</strong> – The primary key of the recipes that should be deleted from the database.</td>
+</tr>
+</tbody>
+</table>
+<p>The view will just load the recipes he selected to delete and remove them from the database.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.get_recipe">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">get_recipe</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.get_recipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get recipe view.</p>
+<p>This view allows the user to enter all the information necessary to search recipes.
+It will first gather all possible data concerning the user’s preferences.
+It will then load all the names of the recipes the user liked.</p>
+<p>Finally it will create a form to get recipes and fill it with the user’s preferences.
+Finally it will simply render the page.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.get_recipe_confirm">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">get_recipe_confirm</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.get_recipe_confirm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get recipe confirmation view.</p>
+<p>This view is used to check if the raw foods asked by the user generally corresponds to what he can eat.
+It will first load the user’s intolerences and diet.
+It will load the data given in the GetRecipeForm to see what the user asked for.
+If the data is not valid it will redirect the user to get_recipe to ask him to enter data properly.
+However if the data is valid, the view will create a list of every types of foods the user would not want to eat
+according to his diet and intolerences.
+Once this list is done it will check if the foods the user asked for are in this list.
+If any of these foods are asked the view will return the variable launch_popup as true 
+(to say a popup should appear to warn the user)
+It will also return the foods that pose a problem.
+Else it will send launch_popup as false and an empty list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A boolean saying of the user wants to receive popups.
+And a list fo all the groups of foods that pose a problem with the user’s search.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.history_not_tried">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">history_not_tried</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.history_not_tried" title="Permalink to this definition">¶</a></dt>
+<dd><p>History not tried view</p>
+<p>This view allows the user to see all the recipes and raw foods the website advised him to try.
+It will first load all the Feedback objects linked to the user. 
+Then it will load all the data about the recipes and the raw foods in the feedbacks.
+If the view is accessed via GET method it will simply render the page.
+If the view is accessed via POST method it will check for each recipe and raw food if its mark changed.
+If it did change it will update the number of likes and dislikes it currently has.
+Then it will update accordingly it’s percentage of likes.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.history_tried">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">history_tried</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.history_tried" title="Permalink to this definition">¶</a></dt>
+<dd><p>History of tried recipes view</p>
+<p>This view allows the user to see all the recipes and raw foods he tried.
+It will first load all the Feedback objects linked to the user. 
+Then it will load all the data about the recipes and the raw foods in the feedbacks.
+If the view is accessed via GET method it will simply render the page.
+If the view is accessed via POST method it will check for each recipe and raw food if its mark changed.
+If it did change it will update the number of likes and dislikes it currently has.
+Then it will update accordingly it’s percentage of likes.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.home">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">home</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Home view.</p>
+<p>This view doesn’t do much. However django needs a home view to function properly.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.index">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">index</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index view.</p>
+<p>This view only renders the index template, which corresponds to the first page the user will see on the website.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.logout_view">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">logout_view</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.logout_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logout view.</p>
+<p>This view simply logs out the user and redirects him to the index page.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.maketrans">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">maketrans</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.maketrans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a translation table usable for str.translate().</p>
+<p>If there is only one argument, it must be a dictionary mapping Unicode
+ordinals (integers) or characters to Unicode ordinals, strings or None.
+Character keys will be then converted to ordinals.
+If there are two arguments, they must be strings of equal length, and
+in the resulting dictionary, each character in x will be mapped to the
+character at the same position in y. If there is a third argument, it
+must be a string, whose characters will be mapped to None in the result.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.most_popular_recipes_foods">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">most_popular_recipes_foods</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.most_popular_recipes_foods" title="Permalink to this definition">¶</a></dt>
+<dd><p>view to show the most pupular recipes and foods.</p>
+<p>This view allows the user to see what are the most liked recipes and foods.
+It will simply load the 5 most liked recipes and foods and render the page.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.personal_details">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">personal_details</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.personal_details" title="Permalink to this definition">¶</a></dt>
+<dd><p>User information  to create a new user.</p>
+<p>This view corresponds to the second part of the sign up process.
+If it is accessed via GET method, it will simply load the personal details form and render the page.
+If it is accessed via POST method, it will read the information send via the personal details form and
+check if it is valid.</p>
+<p>If the information is valid, it will read the user details sent by the signup view (above) and create a User
+with this data. Then it will create a UserDB object linked to the User just created. It will then fill all
+the necessary informations given concerning both the User and the UserDB.
+Next it will read the intolerences and for each, create an Intolerence object with the User and the name.
+Finally it will redirect the user to the login page.</p>
+<p>If the information is not valid however it will re-render the page asking to fill the form correctly.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.personal_settings">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">personal_settings</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.personal_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>personal settings view</p>
+<p>This view allows the user to change his personal settings like gender, birth_date or weight and height, etc.
+It will first load the user’s data and put them in the settings form. (this allows the form to be initially 
+filled with the user’s data).
+If the view is accessed via GET method it will simply render the page.
+If the view is accessed via POST method it will fill the form with the posted data and check if it is valid.
+If the data is valid it will change all the entered data to update the user’s information.
+If the data is not valid however it will reload the page and ask the user to enter data properly.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.profile">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">profile</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Profile view.</p>
+<p>This view will simply load all the information about the user and send them to the page.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.results">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">results</code><span class="sig-paren">(</span><em>request</em>, <em>need_verification</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Results view</p>
+<p>This view will give the user’s the results found for his research.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>need_verification</strong> – A simple integer (0 or 1) telling if the research should be verified(1) or not(0).</td>
+</tr>
+</tbody>
+</table>
+<p>It will start by loading all the user’s data. Includng his daily nutrient needs.
+Then it will load the data entered in the GetRecipeForm to know what kind of recipes to search for.
+If this data is not valid it will redirect the user to get recipe to ask him to enter data properly.
+It will then check if the research needs to be verified. If it does it will launch get_recipe_confirm (above)
+If launch popup is true it means some asked foods will be a problem and the view will redirect the user
+on get_recipe to inform him via a popup.
+It will then search in the kinds of food asked if some raw foods correspond to the user’s demands and,
+for each of those foods, create a Feedback object for this user.
+Once it has searched for foods it will gather all the necessary information to prepare for the recipe search.
+Additionnaly, if the user asked for a peculiar recipe it will gather it’s data first.
+The view will then search all the potential recipes it could use to optimize the search and use those recipes
+to calculate the best set of recipes he could propose to the user.
+For each of those recipes, the view will create a Feedback object for the user.
+Finally it will render the page to show those recipes and foods.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.save_recipes_in_db">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">save_recipes_in_db</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.save_recipes_in_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save recipes in d view.</p>
+<p>This view allows the user to select a list of recipes proposed by the website
+and save them so that he can access them later. The recipes are stored by day
+and it is possible to store several days.</p>
+<p>The view will gather the recipes and nutrients in the session data and
+save those information in the database.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.saved_recipes">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">saved_recipes</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.saved_recipes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saved recipes view.</p>
+<p>This view allows the user to see the recipes he has saved. Thus he can have
+acces to the recipes he intended to try at any moment.</p>
+<p>The view will load all the recipes the user saved and their related nutrients.
+It will then load the page with this data.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.signup">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">signup</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.signup" title="Permalink to this definition">¶</a></dt>
+<dd><p>User creation view.</p>
+<p>This view corresponds to the first part of the sign up process.
+If it is accessed via GET method it will simply load the first signup form and render the page.
+If it is accessed via POST method, it will read the information send via the sign up form and
+check if it is valid.
+If the information is valid it will create a dictionnary containing the user’s information and 
+send it to the next signup step.
+If the information is not valid however it will re-render the page asking to fill the form correctly.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="diet_optimizer_website.views.user_profile">
+<code class="descclassname">diet_optimizer_website.views.</code><code class="descname">user_profile</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#diet_optimizer_website.views.user_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>personal settings view</p>
+<p>This view allows the user to change his preferences, objectives and intolerences.
+It will first load the user’s data, intolerences and favorites and put them in the settings form. 
+(this allows the form to be initially filled with the user’s data).
+If the view is accessed via GET method it will simply render the page.
+If the view is accessed via POST method it will fill the form with the posted data and check if it is valid.
+If the data is valid it will change all the entered data to update the user’s information.
+If the data is not valid however it will reload the page and ask the user to enter data properly.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">diet_optimizer</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html">Forms</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="models.html" title="previous chapter">Models</a></li>
+      <li>Next: <a href="forms.html" title="next chapter">Forms</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/views.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

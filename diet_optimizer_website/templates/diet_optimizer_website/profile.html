@@ -1,0 +1,65 @@
+{% extends "diet_optimizer_website/layout2.html" %}
+{% block content %}
+
+<main class="hero-section">
+
+	<aside>
+			<div class="sidebar2" >
+				<ul>
+					<li ><a href="{% url 'about_logged_in' %}">ABOUT</a></li>
+					<li class="selected"><a href="{% url 'profile' %}">PERSONAL INFORMATION </a></li>
+					<li ><a href="{% url 'get_recipe' %}">GET A RECIPE</a></li>
+					<li ><a href="{% url 'history_not_tried' %}">HISTORY</a></li>
+					<li ><a href="{% url 'personal_settings' %}">SETTINGS</a></li>
+					<li ><a href="{% url 'most_popular_recipes_foods' %}">MOST POPULAR RECIPES</a></li>
+				</ul>
+			</div>
+			</aside>
+
+	<form action="diet_omtimizer_wesite/profile" method="get">
+		<div class="container-profile">
+		<h2> Hi {{ user.username }} ! Welcome to your profile page !
+		</h2>
+			<br>	 <br>
+			<h3> First name : <h2>{{ user.first_name.capitalize }}</h2></h3>
+			<br>
+			<h3> Last name : <h2> {{ user.last_name.capitalize }}</h2></h3>
+			<br>
+			<h3> gender : <h2> {{ userDB.gender }}</h2></h3>
+			<br>
+			<h3> Birth date : <h2> {{ userDB.birth_date }} </h2></h3>
+			<br>
+			<h3> Email : <h2>{{ user.email }}</h2></h3>
+			<br>
+			<h3> Activity level : <h2> {{ userDB.activity_level }} </h2></h3>
+			<br>
+			<h3> Diet : <h2>{{ userDB.diet }}</h2></h3>
+			<br>
+			<h3> Intolerences :
+				<ul>
+				{% for intolerence in intolerences %}
+					<li><h2>{{ intolerence.intolerence_name }}</h2></li>
+				{% endfor %}
+				</ul>
+			</h3>
+			<br>
+		</div>
+
+		<div id="user_nutrients_br">
+			<br>
+			<h3>User Nutrients:</h3>
+				Body Mass Index (BMI): {{userData.daily_nutrients.bmi}}
+			<br>
+				Calorie Range: {{userData.daily_nutrients.cal_low}} - {{userData.daily_nutrients.cal_up}} kcal
+			<br>
+				Carb Range: {{userData.daily_nutrients.carb_low}} - {{userData.daily_nutrients.carb_up}} g
+			<br>
+				Fat Range: {{userData.daily_nutrients.fat_low}} - {{userData.daily_nutrients.fat_up}} g
+			<br>
+				Protein Range: {{userData.daily_nutrients.prot_low}} - {{userData.daily_nutrients.prot_up}} g
+			<br>
+			<br>
+		</div>
+	</form>
+  </main>
+{% endblock %}

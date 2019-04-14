@@ -1,0 +1,195 @@
+{% extends "diet_optimizer_website/layout.html" %}
+{% block content %}
+
+{% load static %}
+<style>
+	body{
+		background: url("/static/img/food_world.jpg") no-repeat center;
+	}
+
+</style>
+    
+<main>
+
+		<script type="text/javascript">
+
+			$(document).ready(function(){
+				disableIfNoneIntolerences();
+			});
+			
+			function disableIfNoneIntolerences() {
+				if ( document.getElementById('intolerenceNone').checked )
+				{
+					$("input[name='intolerences']").each(function(){
+						if ($(this).is(':checkbox')) {
+							$(this).prop("checked",false);
+							$(this).attr("disabled",true);
+						} else if ($(this).is(':hidden')) {
+							$(this).attr("disabled",true);
+						}
+					});
+					$("#intolerenceNone").each(function(){
+						$(this).attr("disabled", false);
+						$(this).prop("checked", true);
+					});
+				} 
+				else
+				{
+					$("input[name='intolerences']").each(function(){
+						if ($(this).is(':checkbox')) {
+							$(this).attr("disabled",false);
+						} else if ($(this).is(':hidden')) {
+							$(this).attr("disabled",false);
+						}
+					});
+				}
+			};
+		</script>
+	<script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+	<form  id="msform" method="POST" action='/diet_optimizer_website/personal_details'>
+		{% csrf_token %}
+		
+  		<!-- progressbar -->
+  		<ul id="progressbar">
+    		<li >Account Setup</li>
+    		<li class="active">Personal Details</li>
+  		</ul>
+
+		<!-- fieldsets -->
+
+		<fieldset>
+    		<h2 class="fs-title">Personal Details</h2>
+			<div class='form-group'>
+				{{ form.first_name.label }}
+
+				{% if form.first_name.errors %}
+					{% for error in form.first_name.errors %}
+						<p class='error-message'>{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+
+				{{ form.first_name }}
+			</div>
+
+			<div class='form-group'>
+				{{ form.last_name.label }}
+
+				{% if form.last_name.errors %}
+					{% for error in form.last_name.errors %}
+						<p class='error-message'>{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+
+				{{ form.last_name }}
+			</div>
+
+			<div class='form-group-gender'>
+				{{ form.gender.label }}
+
+				{% if form.gender.errors %}
+					{% for error in form.gender.errors %}
+						<p class='error-message'>{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+				{{ form.gender}}
+			</div>
+
+				
+			<div class='form-group'>
+				<br>
+				{{ form.birth_date.label }}
+				{% if form.birth_date.errors %}
+					{% for error in form.birth_date.errors %}
+						<p class='error-message'>{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+				{{ form.birth_date}}
+			</div>
+
+			<div class='form-group'>
+				{{ form.height.label }}
+				{% if form.height.errors %}
+					{% for error in form.height.errors %}
+						<p class='error-message'>{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+
+				{{ form.height }}
+			</div>
+
+			<input type="radio" id="centimeter" name="heightunit" value="cm" checked="true" onclick="document.getElementById('kilograms').checked = true"> cm</input>
+			<input type="radio" id="inch" name="heightunit" value="in" onclick="document.getElementById('pound').checked = true" > in</input><br>
+			<br>
+			
+
+			<div class='form-group'>
+				{{ form.weight.label }}
+				{% if form.weight.errors %}
+					{% for error in form.weight.errors %}
+						<p class='error-message'>{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+
+				{{ form.weight }}
+			</div>
+			
+			<input type="radio" id="kilograms" name="weightunit" value="kg" checked="true" onclick="document.getElementById('centimeter').checked = true"> kg</input>
+			<input type="radio" id="pound" name="weightunit" value="lbs" onclick="document.getElementById('inch').checked = true"> lbs</input><br>
+			<br>
+	
+    		<div class='form-group'>
+				<div class="tooltip">{{ form.diet.label }} <img src="/static/img/question-mark-icon.png" height="20" width="20"/>
+					<span class="tooltiptext"> This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</span>
+				</div><br>
+
+				{% if form.diet.errors %}
+					{% for error in form.diet.errors %}
+						<p class='error-message'>{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+    			{{ form.diet}}
+			</div>
+
+			<div class='form-group'>
+				{{ form.intolerences.label }}
+				{% if form.intolerences.errors %}
+					{% for error in form.intolerences.errors %}
+						<p class='error-message'>{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+        		<table id="personal_details_intolerences" style="width: 250px;">
+					<tr>
+						<td>
+							<input type="checkbox" value="None" name="intolerences" id="intolerenceNone" onclick="disableIfNoneIntolerences()"><b> None</b></input>
+						</td>
+					</tr>
+				{% for intolerence in form.intolerences|slice:"1:" %}
+					<tr>
+						<td>
+							{{intolerence}}
+						</td>
+					</tr>
+				{% endfor %}
+				</table>
+			</div>
+
+			<div class='form-group'>
+			<!--p><em>{{ form.activity_level.label }}</em></p-->
+
+				<div class="tooltip">{{ form.activity_level.label }} <img src="/static/img/question-mark-icon.png" height="20" width="20"/>
+					<span class="tooltiptext"> This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</span>
+				</div><br>
+				{% if form.activity_level.errors %}
+					{% for error in form.activity_level.errors %}
+						<p class='error-message'>{{ error }}</p>
+					{% endfor %}
+				{% endif %}
+        		{{ form.activity_level}}
+			</div>
+
+			<input type="submit" name="submit" value="Register" />
+  		</fieldset>
+	</form>
+
+</main>
+{% endblock %}

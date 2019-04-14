@@ -1,0 +1,33 @@
+{% extends "diet_optimizer_website/layout2.html" %}
+
+{% block content %}
+  <main class="about-section">
+
+    <aside>
+            <div class="sidebar2" >
+                <ul>
+                    <li class="selected"><a href="{% url 'about_logged_in' %}">ABOUT</a></li>
+                    <li ><a href="{% url 'profile' %}">PERSONAL INFORMATION</a></li>
+                    <li ><a href="{% url 'get_recipe' %}">GET A RECIPE</a></li>
+                    <li ><a href="{% url 'history_not_tried' %}">HISTORY</a></li>
+                    <li ><a href="{% url 'personal_settings' %}">SETTINGS</a></li>
+                    <li ><a href="{% url 'most_popular_recipes_foods' %}">MOST POPULAR RECIPES</a></li>
+                </ul>
+            </div>
+    </aside>
+
+    <div class="container">
+
+    <h2>About Diet Optimizer</h2>
+     <br/>
+     <p>Welcome to Diet Optimizer!</p>
+     <br/>
+     <b>Diet Optimizer is committed to finding you the best recipes that suit your customized diet. We cater to all diets, restrictions, cuisines, etc.</b>
+     <br/>
+     <p>By just entering some information about yourself, as well as the type of recipes you are looking for, Diet Optimizer will generate a list of recipes and foods from popular websites for you. Once logged in, visit the ‘Settings’ page to keep your preferences up-to-date and even save your go-to recipe settings.</p>
+     <br/>
+     <p>Be sure to check out your ‘History’ page to revisit your favorite recipes and our ‘Most Famous Recipes’ page to see what recipes others are loving!</p>
+
+    </div>
+  </main>
+{% endblock %}

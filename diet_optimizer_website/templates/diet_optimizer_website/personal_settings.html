@@ -1,0 +1,98 @@
+{% extends "diet_optimizer_website/layout2.html" %}
+
+{% block content %}
+<main class="hero-section">
+    <aside>
+        <div class="sidebar2" >
+            <ul>
+                <li ><a href="{% url 'about_logged_in' %}">ABOUT</a></li>
+                <li ><a href="{% url 'profile' %}">PERSONAL INFORMATION</a></li>
+                <li ><a href="{% url 'get_recipe' %}">GET A RECIPE</a></li>
+                <li ><a href="{% url 'history_not_tried' %}">HISTORY</a></li>
+                <li class="selected"><a href="{% url 'personal_settings' %}">SETTINGS</a></li>
+                <li ><a href="{% url 'most_popular_recipes_foods' %}">MOST POPULAR RECIPES</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="{% url 'personal_settings' %}">PERSONAL SETTINGS</a></li>
+            <li><a href="{% url 'user_profile' %}"> DIET SETTINGS</a></li>
+            <li><a href="{% url 'account_settings' %}">ACCOUNT SETTINGS</a></li>
+        </ul>
+    </div>
+
+    <div class="container-settings">
+	    <script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+        <script type="text/javascript" src="script.js"></script>
+	    <form method="POST" action="{% url 'personal_settings' %}">
+            <form method="GET" action="{% url 'personal_settings' %}">
+                <div id="user_info">
+	                {% csrf_token %}
+                    <br><br>
+                    <h1 class="title">Do you want to change something on your profile?</h1>
+                    <br><br>
+                    <div class='form-group'>
+                        {{ form.gender.label }}
+
+                        {% if form.gender.errors %}
+                            {% for error in form.gender.errors %}
+                                <p class='error-message'>{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        <br/>
+                        {{ form.gender }}
+                    </div>
+
+                    <div class='form-group'>
+                        {{ form.birth_date.label }}
+
+                        {% if form.birth_date.errors %}
+                            {% for error in form.birth_date.errors %}
+                                <p class='error-message'>{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+
+                        {{ form.birth_date }}
+                    </div><br>
+
+                    <div class='form-group'>
+                        {{ form.height.label }}
+
+                        {% if form.height.errors %}
+                            {% for error in form.height.errors %}
+                                <p class='error-message'>{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        {{ form.height }}
+                    </div>
+                    <input type="radio" id="centimeter" name="heightunit" value="cm" checked="true" onclick="document.getElementById('kilograms').checked = true"> cm</input>
+                    <input type="radio" id="inch" name="heightunit" value="in" onclick="document.getElementById('pound').checked = true;document.form['height'].value =12345" > in</input><br>
+                    <br>
+
+                    <div class='form-group'>
+                        {{ form.weight.label }}
+
+                        {% if form.weight.errors %}
+                            {% for error in form.weight.errors %}
+                                <p class='error-message'>{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        {{ form.weight }}
+                    </div>
+                    <input type="radio" id="kilograms" name="weightunit" value="kg" checked="true"> kg</input>
+                    <input type="radio" id="pound" name="weightunit" value="lbs"> lbs</input><br>
+                    <br>
+
+	                <input class="btn-primary" id="submit" type="submit" name="submit" value="Update" />
+                </div>
+            </form>
+        </form>
+    </div>
+    <br>
+
+</main>
+
+
+{% endblock %}

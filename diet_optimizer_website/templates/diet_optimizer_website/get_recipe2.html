@@ -1,0 +1,493 @@
+{% extends "diet_optimizer_website/layout2.html" %}
+
+{% block content %}
+<style>
+    input[type=range]{
+        -webkit-appearance: none;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+        width: 300px;
+        height: 5px;
+        background: #ddd;
+        border: none;
+        border-radius: 3px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        border: none;
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background: goldenrod;
+        margin-top: -4px;
+    }
+
+    input[type=range]:focus {
+        outline: none;
+    }
+
+    input[type=range]:focus::-webkit-slider-runnable-track {
+        background: #ccc;
+    }
+
+    input[type=text]{
+        width: 50px;
+        background-color: #f4f4f4;
+        border: none;
+        text-align:center;
+        font-size:14px;
+    }
+
+    table td + td { border-left:10px solid transparent; }
+
+    .ui-slider-horizontal {
+      height: 10px;
+      width: 300px;
+      display:inline-block;
+    }
+</style>
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+      disableCuisines();
+  });
+
+  function disableCuisines() {
+      if ( document.getElementById('checkAll').checked )
+      {
+          $("input[name='cuisines']").each(function(){
+              if ($(this).is(':checkbox')) {
+                  $(this).prop("checked",true);
+              } else if ($(this).is(':hidden')) {
+                  $(this).attr("disabled",false);
+              }
+          });
+      }
+      if (!( document.getElementById('checkAll').checked ))
+      {
+          $("input[name='cuisines']").each(function(){
+              if ($(this).is(':checkbox')) {
+                  $(this).prop("checked",false);
+              } else if ($(this).is(':hidden')) {
+                  $(this).attr("disabled",true);
+              }
+          });
+      }
+  };
+
+  $(document).ready(function(){
+      disableRawGroups();
+  });
+
+  function disableRawGroups() {
+      if ( document.getElementById('checkAll2').checked )
+      {
+          $("input[name='rawGroups']").each(function(){
+              if ($(this).is(':checkbox')) {
+                  $(this).prop("checked",true);
+              } else if ($(this).is(':hidden')) {
+                  $(this).attr("disabled",false);
+              }
+          });
+      }
+      if (!( document.getElementById('checkAll2').checked ))
+      {
+          $("input[name='rawGroups']").each(function(){
+              if ($(this).is(':checkbox')) {
+                  $(this).prop("checked",false);
+              } else if ($(this).is(':hidden')) {
+                  $(this).attr("disabled",true);
+              }
+          });
+      }
+  };
+</script>
+
+<main class="hero-section">
+	<aside>
+	    <div class="sidebar2" >
+		    <ul>
+          <li ><a href="{% url 'about_logged_in' %}">ABOUT</a></li>
+          <li ><a href="{% url 'profile' %}">PERSONAL INFORMATION</a></li>
+			    <li class="selected"><a href="{% url 'get_recipe' %}">GET A RECIPE</a></li>
+			    <li ><a href="{% url 'history_not_tried' %}">HISTORY</a></li>
+			    <li ><a href="{% url 'personal_settings' %}">SETTINGS</a></li>
+          <li ><a href="{% url 'most_popular_recipes_foods' %}">MOST POPULAR RECIPES</a></li>
+		    </ul>
+	    </div>
+	</aside>
+
+    <div class="container-home">
+        <script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+        <script type="text/javascript" src="script.js"></script>
+
+
+
+        <h1> Hi {{ user.username }}, insert your information here to get your diet plan.</h1>
+        <h3> (Visit <a href="{% url 'user_profile' %}">Diet Settings</a> to save your favorite recipe options.) </h3>
+            <div id="user_form" class="wrapper">
+                <h2>User information</h2>
+                <form action={% url "results" need_verification=1 %} method="get">
+
+                  {% if launch_popup %}
+                  <!-- The Modal -->
+                  <div class="modal show" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Caution: incompatible food choice.</h5>
+                        </div>
+                        <div class="modal-body">
+                          <p>The following raw food categories might contain foods incompatible with your diet or intolerences:</p>
+                        <div>
+                            {% for raw_food in impossible_foods_selected %}
+                            <p>{{raw_food}}</p>
+                            {% endfor %}
+                        </div>
+                          <p>Do you still wish to continue with these criterias?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <div class="col-md-8">
+                            <p>
+                              (Don't like popups? You can turn them off <a href="{% url 'account_settings' %}">here</a>)
+                            </p>
+                          </div>
+                          <button formaction={% url "results" need_verification=0 %} method="get" type=submit class="btn btn-primary" onclick="ButtonClicked()" >Yes</button>
+                          <a href="{% url 'get_recipe' %}"><button type="button" class="btn btn-secondary">No</button></a>
+                          <br>
+                          <br>
+                          <div id="buttonreplacement" style="margin-left:30px; display:none;">
+                              {% load static %}
+                            <img src='{% static "img/loader.gif" %}' alt="loading...">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+
+                <dl>
+                <dt> <br> {{form.cuisines.label}}
+                  {% if form.cuisines.errors %}
+                  {% for error in form.cuisines.errors %}
+                    <p class='error-message'>{{ error }}</p>
+                  {% endfor %}
+                {% endif %}
+                <dt>
+                  <table>
+                    <tr>
+                        <td>
+                          <input type="checkbox" name="cuisine" id="checkAll" value='' onclick="disableCuisines()"><b> All</b></input>
+                        </td>
+                    </tr>
+                    <tr>
+                      {% for cuisine in form.cuisines %}
+                        <td>
+                          {{cuisine}}
+                        </td>
+                        {% if forloop.counter|divisibleby:10 %}
+                            </tr><tr>
+                        {% endif %}
+                      {% endfor %}
+                    </tr>
+                  </table>
+                <dt> <br> {{form.recipeTypes.label}}
+                  {% if form.recipeTypes.errors %}
+                  {% for error in form.recipeTypes.errors %}
+                    <p class='error-message'>{{ error }}</p>
+                  {% endfor %}
+                {% endif %}
+                <dt>
+                  <table>
+                    <tr>
+                        {% for recipeType in form.recipeTypes %}
+                      <td>
+                        {{recipeType}}
+                      </td>
+                        {% endfor %}
+                    </tr>
+                  </table>
+
+                <dt> <br> {{form.rawGroups.label}}
+                  {% if form.rawGroups.errors %}
+                  {% for error in form.rawGroups.errors %}
+                    <p class='error-message'>{{ error }}</p>
+                  {% endfor %}
+                {% endif %}
+                <dt>
+                  <table>
+                    <tr>
+                      <td>
+                          <input type="checkbox" name="rawGroup" id="checkAll2" value='' onclick="disableRawGroups()"><b> All</b></input>
+                      </td>
+                    </tr>
+                    <tr>
+                      {% for group in form.rawGroups %}
+                        <td>
+                          {{group}}
+                        </td>
+                        {% if forloop.counter|divisibleby:4 %}
+                            </tr><tr>
+                        {% endif %}
+                      {% endfor %}
+                    </tr>
+                  </table>
+                <dt> <br> {{form.objectiveNutrition.label}}
+                  {% if form.objectiveNutrition.errors %}
+                  {% for error in form.objectiveNutrition.errors %}
+                    <p class='error-message'>{{ error }}</p>
+                  {% endfor %}
+                {% endif %}
+                <dt><br>
+                <table>
+                  <tr>
+                    {% for objective in form.objectiveNutrition %}
+                    <td>
+                      {{objective}}
+                    </td>
+                    {% endfor %}
+                  </tr>
+                </table>
+
+              <dt> <br> {{form.objectiveMinMax.label}}
+                {% if form.objectiveMinMax.errors %}
+                {% for error in form.objectiveMinMax.errors %}
+                  <p class='error-message'>{{ error }}</p>
+                {% endfor %}
+              {% endif %}
+              <dt>
+              <table>
+                <tr>
+                  {% for objective in form.objectiveMinMax %}
+                  <td>
+                    {{objective}}
+                  </td>
+                  {% endfor %}
+                </tr>
+              </table>
+
+              <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+              <link rel="stylesheet" href="/resources/demos/style.css">
+              <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+              <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+              <script>
+                $( function() {
+                  $( "#slider-range-cal" ).slider({
+                    range: true,
+                    min: 1000,
+                    max: 4000,
+                    values: [{{user_daily_nutrients.cal_low}}, {{user_daily_nutrients.cal_up}}],
+                    slide: function( event, ui ) {
+                      updateTextInput1a(ui.values[0]);
+                      updateTextInput1b(ui.values[1]);
+                    }
+                  });
+                  $('#id_calLow').change( function(){
+                    var val = $(this).val();
+                    $( "#slider-range-cal" ).slider( "value", 0, val );
+                  });
+                  $('#id_calUp').change( function(){
+                    var val = $(this).val();
+                    $( "#slider-range-cal" ).slider( "values", 1, val );
+                  });
+
+                  $( "#slider-range-prot" ).slider({
+                    range: true,
+                    min: 0,
+                    max: 800,
+                    values: [{{user_daily_nutrients.prot_low}}, {{user_daily_nutrients.prot_up}}],
+                    slide: function( event, ui ) {
+                      updateTextInput2a(ui.values[0]);
+                      updateTextInput2b(ui.values[1]);
+                    }
+                  });
+                  $('#id_protLow').change( function(){
+                    var val = $(this).val();
+                    $( "#slider-range-prot" ).slider( "values", 0, val );
+                  });
+                  $('#id_protUp').change( function(){
+                    var val = $(this).val();
+                    $( "#slider-range-prot" ).slider( "values", 1, val );
+                  });
+
+                  $( "#slider-range-carb" ).slider({
+                    range: true,
+                    min: 0,
+                    max: 800,
+                    values: [{{user_daily_nutrients.carb_low}}, {{user_daily_nutrients.carb_up}}],
+                    slide: function( event, ui ) {
+                      updateTextInput3a(ui.values[0]);
+                      updateTextInput3b(ui.values[1]);
+                    }
+                  });
+                  $('#id_carbLow').change( function(){
+                    var val = $(this).val();
+                    $( "#slider-range-carb" ).slider( "values", 0, val );
+                  });
+                  $('#id_carbUp').change( function(){
+                    var val = $(this).val();
+                    $( "#slider-range-carb" ).slider( "values", 1, val );
+                  });
+
+                  $( "#slider-range-fat" ).slider({
+                    range: true,
+                    min: 0,
+                    max: 500,
+                    values: [{{user_daily_nutrients.fat_low}}, {{user_daily_nutrients.fat_up}}],
+                    slide: function( event, ui ) {
+                      updateTextInput4a(ui.values[0]);
+                      updateTextInput4b(ui.values[1]);
+                    }
+                  });
+                  $('#id_fatLow').change( function(){
+                    var val = $(this).val();
+                    $( "#slider-range-fat" ).slider( "values", 0, val );
+                  });
+                  $('#id_fatUp').change( function(){
+                    var val = $(this).val();
+                    $( "#slider-range-fat" ).slider( "values", 1, val );
+                  });
+                } );
+
+              </script>
+              <dt><br>Do you want to change calories ranges (Kcal)?
+              <dt>
+              <p><table><tr>
+                <td class="slider-form-LowUp">{{form.calLow}}</td>
+                <td><div id="slider-range-cal"></div></td>
+                <td class="slider-form-LowUp">{{form.calUp}}</td>
+              </tr></table></p>
+
+              <dt><br>Do you want to change protein ranges (g)?
+              <dt>
+              <p><table><tr>
+                <td class="slider-form-LowUp">{{form.protLow}}</td>
+                <td><div id="slider-range-prot"></div></td>
+                <td class="slider-form-LowUp">{{form.protUp}}</td>
+              </tr></table></p>
+
+              <dt><br>Do you want to change carb ranges (g)?
+              <dt>
+              <p><table><tr>
+                <td class="slider-form-LowUp">{{form.carbLow}}</td>
+                <td><div id="slider-range-carb"></div></td>
+                <td class="slider-form-LowUp">{{form.carbUp}}</td>
+              </tr></table></p>
+
+              <dt><br>Do you want to change fat ranges (g)?
+              <dt>
+                <p><table><tr>
+                  <td class="slider-form-LowUp">{{form.fatLow}}</td>
+                  <td><div id="slider-range-fat"></div></td>
+                  <td class="slider-form-LowUp">{{form.fatUp}}</td>
+                </tr></table></p>
+
+              <dt> <br> {{form.time.label}}
+                {% if form.time.errors %}
+                {% for error in form.time.errors %}
+                  <p class='error-message'>{{ error }}</p>
+                {% endfor %}
+              {% endif %}
+              </dt>
+              <table>
+                <tr>
+                  <td>
+                    {{form.time}}
+                  </td>
+                </tr>
+              </table>
+
+              <dt> <br> {{form.peculiar_recipe.label}}
+                {% if form.peculiar_recipe.errors %}
+                {% for error in form.peculiar_recipe.errors %}
+                  <p class='error-message'>{{ error }}</p>
+                {% endfor %}
+              {% endif %}
+              </dt>
+              <table>
+                <tr>
+                  <td>
+                    {{form.peculiar_recipe}}
+                  </td>
+                </tr>
+              </table>
+
+              <dt> <br> <!--input type=submit id="search" value=Submit-->
+                {% if userDB.accepts_popups %}
+                      <div id="formsubmitbutton">
+                          <input type=submit name="submit_button" id="search" value="Show me recipes" onclick="ButtonClicked()">
+                      </div>
+                {% else %}
+                      <div id="formsubmitbutton">
+                        <input formaction={% url "results" need_verification=0 %} type=submit name="submit_button" id="search" value="Show me recipes" onclick="ButtonClicked()">
+                      </div>
+                {% endif %}
+
+                      <div id="buttonreplacement" style="margin-left:30px; display:none;">
+                          {% load static %}
+                        <img src='{% static "img/loader.gif" %}' alt="loading...">
+                      </div>
+            <!-- below js code is for loading gif on submit button -->
+                      </dl>
+                      <dt>
+                  </form>
+
+              </div>
+
+          </div>
+
+
+    <script type="text/javascript">
+          function updateTextInput4a(val) {
+            document.getElementById('id_fatLow').value=val;
+          }
+          function updateTextInput4b(val) {
+                document.getElementById('id_fatUp').value=val; }
+
+          function updateTextInput3a(val) {
+            document.getElementById('id_carbLow').value=val;
+          }
+          function updateTextInput3b(val) {
+                document.getElementById('id_carbUp').value=val; }
+
+          function updateTextInput2a(val) {
+            document.getElementById('id_protLow').value=val;
+          }
+          function updateTextInput2b(val) {
+                document.getElementById('id_protUp').value=val; }
+
+          function updateTextInput1a(val) {
+            document.getElementById('id_calLow').value=val;
+          }
+          function updateTextInput1b(val) {
+                document.getElementById('id_calUp').value=val; }
+    </script>
+
+    <script type="text/javascript">
+        function ButtonClicked()
+        {
+           document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
+           document.getElementById("buttonreplacement").style.display = ""; // to display
+           return true;
+        }
+        var FirstLoading = true;
+        function RestoreSubmitButton()
+        {
+           if( FirstLoading )
+           {
+              FirstLoading = false;
+              return;
+           }
+           document.getElementById("formsubmitbutton").style.display = ""; // to display
+           document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
+        }
+        // To disable restoring submit button, disable or delete next line.
+        // document.onfocus = RestoreSubmitButton;
+    </script>
+
+</main>
+{% endblock %}

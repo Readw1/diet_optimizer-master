@@ -1,0 +1,76 @@
+{% extends "diet_optimizer_website/layout2.html" %}
+
+{% block content %}
+<main class="hero-section">
+    <aside>
+        <div class="sidebar2" >
+            <ul>
+                <li ><a href="{% url 'about_logged_in' %}">ABOUT</a></li>
+                <li ><a href="{% url 'profile' %}">PERSONAL INFORMATION</a></li>
+                <li ><a href="{% url 'get_recipe' %}">GET A RECIPE</a></li>
+                <li ><a href="{% url 'history_not_tried' %}">HISTORY</a></li>
+                <li class="selected"><a href="{% url 'personal_settings' %}">SETTINGS</a></li>
+                <li ><a href="{% url 'most_popular_recipes_foods' %}">MOST POPULAR RECIPES</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li><a href="{% url 'personal_settings' %}">PERSONAL SETTINGS</a></li>
+            <li><a href="{% url 'user_profile' %}">DIET SETTINGS</a></li>
+            <li class="active"><a href="{% url 'account_settings' %}">ACCOUNT SETTINGS</a></li>
+        </ul>
+    </div>
+
+
+    <div class="container-settings">
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p class="{{message.tags}}">{{message}}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" action='account_settings'>
+            {% csrf_token %}
+
+            <div id="user_info">
+                <br><br>
+                <h1 class="title">Do you want to change something on your account?</h1>
+                <br><br>
+
+                <div class='form-group'>
+                    {{ account_form.new_password.label }}
+
+                    {{ account_form.new_password }}
+                </div>
+                <br>
+
+                <div class='form-group'>
+                    {{ account_form.new_password2.label }}
+
+                    {{ account_form.new_password2 }}
+                </div>
+            </div>
+			<input class="btn-primary" type="submit" name="password" value="Next" />
+        </form>
+
+        <br/>
+
+        <form method="POST" action='account_settings'>
+            {% csrf_token %}
+            <div class='form-group'>
+                <b>{{ popup_form.accept_popup.label }}</b>
+
+                {{ popup_form.accept_popup }}
+
+            </div>
+            <input class="btn-primary" type="submit" name="popups" value="Send" />
+        </form>
+    </div>
+
+</main>
+{% endblock %}

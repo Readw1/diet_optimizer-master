@@ -1,0 +1,105 @@
+{% extends "diet_optimizer_website/layout2.html" %}
+{% block content %}
+
+<main>
+
+    <aside>
+            <div class="sidebar2" >
+                <ul>
+                    <li ><a href="{% url 'about_logged_in' %}">ABOUT</a></li>
+                    <li ><a href="{% url 'profile' %}">PERSONAL INFORMATION</a></li>
+                    <li ><a href="{% url 'get_recipe' %}">GET A RECIPE</a></li>
+                    <li ><a href="{% url 'history_not_tried' %}">HISTORY</a></li>
+                    <li ><a href="{% url 'personal_settings' %}">SETTINGS</a></li>
+                    <li class="selected"><a href="{% url 'most_popular_recipes_foods' %}">MOST POPULAR RECIPES</a></li>
+                </ul>
+            </div>
+    </aside>
+
+</main>
+
+<div class="container row">
+    <h1 class="container-popular-recipes">Most popular recipes: </h1>
+</div>
+
+<div class="container">
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"><h2><b>Rank</b></h2></th>
+            <th scope="col"><h2><b>Recipe</b></h2></th>
+            <th scope="col"><h2><b>Link</b></h2></th>
+            <th scope="col"><h2><b>Likes</b></h2></th>
+            <th scope="col"><h2><b>Total Votes</b></h2></th>
+            <th scope="col"><h2><b>Percent Satisfaction</b></h2></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for recipe in  most_popular_recipes %}
+        <tr>
+          <td>
+            <p>{{ forloop.counter }}</p>
+          </td>
+          <td>
+            <p>{{ recipe.title }}</p>
+          </td>
+          <td>
+            <a href={{recipe.link}}>Link</a>
+          </td>
+          <td>
+            <p>{{ recipe.likes }}</p>
+          </td>
+          <td>
+            <p>{{ recipe.likes|add:recipe.dislikes_no_opinion }}</p>
+          </td>
+          <td>
+              <p>{{ recipe.percent }}%</p>
+          </td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+</div>
+
+<!-- Uncomment if you want to enable food popularity -->
+<!-- <div class="container row">
+    <h1 class="container-popular-foods">Most popular foods: </h1>
+</div>
+
+<div class="container">
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"><h2><b>Rank</b></h2></th>
+            <th scope="col"><h2><b>Food</b></h2></th>
+            <th scope="col"><h2><b>Likes</b></h2></th>
+            <th scope="col"><h2><b>Total Votes</b></h2></th>
+            <th scope="col"><h2><b>Percent Satisfaction</b></h2></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for food in  most_popular_foods %}
+        <tr>
+          <td>
+            <p>{{ forloop.counter }}</p>
+          </td>
+          <td>
+            <p>{{ food.desc }}</p>
+          </td>
+          <td>
+            <p>{{ food.likes }}</p>
+          </td>
+          <td>
+            <p>{{ food.likes|add:food.dislikes_no_opinion }}</p>
+          </td>
+          <td>
+              <p>{{ food.percent }}%</p>
+          </td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table> -->
+</div>
+{% endblock %}

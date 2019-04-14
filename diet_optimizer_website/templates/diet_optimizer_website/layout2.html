@@ -1,0 +1,50 @@
+<!--DOCTYPE html-->
+<html>
+  <head>
+	{% load static %}
+		<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet'>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link href='{% static "css/diet_optimizer_main.css" %}' rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1 class="title">
+			<a href="{% url 'index' %}" ><b>Diet Optimizer</b></a>
+		</h1>
+
+		<h1>
+			<a href="{% url 'logout' %}" class="btn-logout">Log Out</a>
+		</h1>
+
+		<h1 class="username">Hi {{ user.username }} | </h1>
+
+		</div>
+
+    </header>
+    <div class="content">
+
+
+    {% comment %}<!--aside>
+	<div class="sidebar2" >
+		<ul>
+			<li onclick="this.setAttribute('class','selected')"><a href="{{ url_for('profile') }}"><label id="test1">GENERAL INFORMATION</label></a></li>
+			<li onclick="this.setAttribute('class','selected')"><a href="#">GET A RECIPE</a></li>
+			<li onclick="this.setAttribute('class','selected')"><a href="{{ url_for('history') }}">HISTORY</a></li>
+			<li onclick="this.setAttribute('class','selected')"><a href="{{ url_for('settings') }}">SETTINGS</a></li-->
+			<!--li ><a href="{{ url_for('profile') }}"><label id="test1">GENERAL INFORMATION</label></a></li>
+			<li ><a href="#">GET A RECIPE</a></li>
+			<li ><a href="{{ url_for('history_not_tried') }}">HISTORY</a></li>
+			<li ><a href="{{ url_for('settings') }}">SETTINGS</a></li>
+		</ul>
+	</div>
+	</aside-->
+	{% endcomment %}
+	{% block content %}
+    {% endblock %}
+    </div>
+  </body>
+</html>
