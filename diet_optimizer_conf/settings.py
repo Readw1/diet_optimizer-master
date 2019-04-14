@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import django_heroku
+
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -137,3 +139,6 @@ APP_KEY = "A0Zr98j/3yX R~XHH!jmN]LWX/,?RT"
 # LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "/diet_optimizer_website/profile"
 LOGOUT_REDIRECT_URL = "/diet_optimizer_website/index"
+
+
+django_heroku.settings(locals())
