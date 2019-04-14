@@ -1,1 +1,1 @@
-web: gunicorn diet_optimizer.wsgi
+web: gunicorn diet_optimizer_conf.wsgi
