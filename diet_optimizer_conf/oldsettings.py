@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'diet_optimizer_conf.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'heroku_b62706c1231eea1',
+        'NAME': 'dbtest',
         'USER': 'DBtestUser',
         'PASSWORD': 'password',
-        'HOST': 'us-cdbr-iron-east-02.cleardb.net',
+        'HOST': 'localhost',
         'PORT':'3306',
     }
 }
